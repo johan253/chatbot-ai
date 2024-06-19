@@ -1,0 +1,39 @@
+{
+    "chats": [
+        {
+            "id": "1",
+            "name": "ReX",
+            "date": "June 7th, 2024",
+            "active": true,
+            "messages": [
+                {
+                    "id": "1",
+                    "text": "Hello",
+                    "role": "assistant"
+                },
+                {   "id": "2",
+                    "text": "im the user!",
+                    "role": "user"
+                },
+                {
+                    "id": "3",
+                    "text": "Yes you are! How can I help you?",
+                    "role": "assistant"
+                }
+            ]
+        },
+        {
+            "id": "2",
+            "name": "ReX",
+            "date": "June 7th, 2024",
+            "active": false,
+            "messages": [
+                {
+                    "id": "1",
+                    "text": "How can I help you!",
+                    "role": "assistant"
+                }
+            ]
+        }
+    ]
+}

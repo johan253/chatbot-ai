@@ -1,8 +1,24 @@
 import React, { useState } from 'react';
 import Logo from "../assets/logo.png";
+import app from "../firebaseConfig";
+import { getAuth, signInWithRedirect, GoogleAuthProvider, getRedirectResult } from "firebase/auth";
 
 const Navbar = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [loggedIn, setLoggedIn] = useState(false);
+    const auth = getAuth(app);
+    auth.onAuthStateChanged((user) => {
+        if (user) {
+            setLoggedIn(true);
+        } else {
+            setLoggedIn(false);
+        }
+    });
+
+    const handleLogin = async () => {
+        const provider = new GoogleAuthProvider();
+        await signInWithRedirect(auth, provider);
+    };
 
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);
@@ -31,8 +47,11 @@ const Navbar = () => {
                 {isMenuOpen && (
                     <div className="absolute right-2 mt-2 w-48 bg-white rounded-md shadow-lg">
                         <div className="py-1">
+                            {!loggedIn ?
                             <a href="/login" className="block px-4 py-2 text-gray-800 hover:bg-gray-200">Login</a>
-                            <a href="/register" className="block px-4 py-2 text-gray-800 hover:bg-gray-200">Register</a>
+                            :
+                            <a href="/logout" className="block px-4 py-2 text-gray-800 hover:bg-gray-200">Logout</a>
+                            }
                         </div>
                     </div>
                 )}
