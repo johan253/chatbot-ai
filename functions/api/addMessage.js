@@ -7,32 +7,39 @@ exports.addMessage = functions.https.onCall(async (data, context) => {
     logger.log("Received  message request data:", data);
 
     // Validate required fields
-    if (!data.text || !data.userId) {
+    if (!data.text || !data.userId || !data.role) {
       logger.log("Required fields (text or userId) are missing");
       throw new functions.https.HttpsError(
           "invalid-argument",
-          "text and userId are required fields",
+          "text, userId, and role are required fields",
       );
     }
 
-    const {text, userId} = data;
+    const {text, userId, role} = data;
+    if (role !== "user" && role !== "assistant") {
+      logger.log("Invalid role. Role must be either 'user' or 'assistant'");
+      throw new functions.https.HttpsError(
+          "invalid-argument",
+          "Role must be either 'user' or 'assistant'",
+      );
+    }
 
     // Construct message data
     const messageData = {
       text,
-      userId,
-      timestamp: admin.firestore.FieldValue.serverTimestamp(),
+      role,
+      createdAt: new Date().toISOString(),
     };
 
     // Add message to the user's message subcollection in FIrestore
     const messageRef = await admin
         .firestore()
-        .collection("chats")
+        .collection("users")
         .doc(userId)
-        .collection("messages")
+        .collection("chats")
         .add(messageData);
 
-    logger.log("Message addes successfully, message ID:", messageRef.id);
+    logger.log("Message added successfully, message ID:", messageRef.id);
 
     // Return success status and message ID
     return {
