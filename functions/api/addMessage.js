@@ -23,6 +23,19 @@ exports.addMessage = functions.https.onCall(async (data, context) => {
           "Role must be either 'user' or 'assistant'",
       );
     }
+    // Check if the user exists
+    if ( ! (await admin
+        .firestore()
+        .collection("users")
+        .doc(userId)
+        .get())
+        .exists) {
+      logger.log("User does not exist");
+      throw new functions.https.HttpsError(
+          "not-found",
+          "User does not exist",
+      );
+    }
 
     // Construct message data
     const messageData = {
