@@ -1,39 +1,30 @@
 {
-    "chats": [
+  "chats": [
+    {
+      "id": "1",
+      "name": "ReX",
+      "date": "June 7th, 2024",
+      "active": true,
+      "messages": [
         {
-            "id": "1",
-            "name": "ReX",
-            "date": "June 7th, 2024",
-            "active": true,
-            "messages": [
-                {
-                    "id": "1",
-                    "text": "Hello",
-                    "role": "assistant"
-                },
-                {   "id": "2",
-                    "text": "im the user!",
-                    "role": "user"
-                },
-                {
-                    "id": "3",
-                    "text": "Yes you are! How can I help you?",
-                    "role": "assistant"
-                }
-            ]
-        },
-        {
-            "id": "2",
-            "name": "ReX",
-            "date": "June 7th, 2024",
-            "active": false,
-            "messages": [
-                {
-                    "id": "1",
-                    "text": "How can I help you!",
-                    "role": "assistant"
-                }
-            ]
+          "id": "1",
+          "text": "Hello! My name is ReX, how can I help your career today?",
+          "role": "assistant"
         }
-    ]
+      ]
+    },
+    {
+      "id": "2",
+      "name": "ReX",
+      "date": "June 7th, 2024",
+      "active": false,
+      "messages": [
+        {
+          "id": "1",
+          "text": "My name is ReX, it's nice to meet you! How can I help you today!",
+          "role": "assistant"
+        }
+      ]
+    }
+  ]
 }

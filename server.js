@@ -12,20 +12,29 @@ app.post('/addMessage', (req, res) => {
     const message = req.body;
 
     if (!message.id || !message.text || !message.role || !message.chatId) {
+        console.log("Message is missing required fields");
         return res.status(400).send("Message is missing required fields");
     }
 
     const chat = data.chats.find(chat => chat.id === message.chatId);
     if (!chat) {
+        console.log("Chat not found");
         return res.status(404).send("Chat not found");
     }
 
-    chat.messages.push(message);
+    const newMessage = {
+        id: message.id,
+        text: message.text,
+        role: message.role
+    }
+    chat.messages.push(newMessage);
 
     fs.writeFile('./src/api/test-data.json', JSON.stringify(data, null, 2), 'utf8', (err) => {
         if (err) {
+            console.log("Error writing to file");
             return res.status(500).send("Error writing to file");
         }
+        console.log("Message added successfully");
         res.status(200).send("Message added successfully");
     });
 });
