@@ -8,14 +8,16 @@ import Navbar from "../../components/Navbar";
 const ChatPage = () => {
     const API_KEY = process.env.REACT_APP_OPENAI_API_KEY;
     const { id } = useParams();
-    const [chat, setChat] = useState({});
     const [messages, setMessages] = useState([]);
     const [typing, setTyping] = useState(false);
     const inputRef = useRef(null);
     useEffect(() => {
-        setChat(getChatFromId(id));
-        setMessages(chat.messages);
-    }, [id, chat.messages]);
+        const fetchData = async() => {
+            const chat = await getChatFromId(id);
+            setMessages(chat.messages);
+        };
+        fetchData();
+    }, [id]);
 
     const sendRequestToChatGPT = async(messages) => {
         // Convert to API format for ChatGPT
@@ -41,20 +43,24 @@ const ChatPage = () => {
             },
             body: JSON.stringify(apiRequestBody)
         };
-        // Send request to ChatGPT
-        console.log("sending message with API KEY: ", API_KEY);
+        console.log("requestOptions: ", requestOptions);
+        console.log("messages: ", messages);
+        console.log("apiMessages: ", apiMessages);
         fetch("https://api.openai.com/v1/chat/completions", requestOptions)
         .then(response => response.json())
         .then(data => {
             const newMessage = {
                 chatId: id,
-                id: chat.messages.length + 1,
+                id: String(messages.length + 1),
                 text: data.choices[0].message.content,
                 role: "assistant"
             };
-            chat.messages.push(newMessage);
+            setMessages([...messages, newMessage]);
+            // causes error currently
             addMessage(newMessage);
-            setChat({...chat});
+            setTyping(false);
+        }).catch(error => {
+            console.error("Error: ", error);
             setTyping(false);
         });
     }
@@ -67,13 +73,15 @@ const ChatPage = () => {
         }
         const newMessage = {
             chatId: id,
-            id: chat.messages.length + 1,
+            id: String(messages.length + 1),
             text: message,
             role: "user"
         };
-        chat.messages.push(newMessage);
+        console.log("messages BEFORE ADDING: ", messages)
+        messages.push(newMessage);
+        console.log("messages AFTER ADDING: ", messages)
+        // causes error currently
         addMessage(newMessage);
-        setChat({...chat});
         inputRef.current.value = "";
         setTyping(true);
         await sendRequestToChatGPT(messages);
@@ -81,7 +89,7 @@ const ChatPage = () => {
     return (
         <div className="flex flex-col h-screen">
             <Navbar/>
-            <h1>Chat Page for chat id number: {chat.id}</h1>
+            <h1>Chat Page for id number: {id}</h1>
             <section className="flex-grow overflow-auto p-4">
                 { messages && messages.map(message => (
                     message.role === "user" ? (

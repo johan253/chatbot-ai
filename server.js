@@ -39,6 +39,26 @@ app.post('/addMessage', (req, res) => {
     });
 });
 
+app.post('/addChat', (req, res) => {
+    const chat = req.body;
+
+    if (!chat.id || !chat.name || !chat.active || !chat.date || !chat.messages) {
+        console.log("Chat is missing required fields");
+        return res.status(400).send("Chat is missing required fields");
+    }
+
+    data.chats.push(chat);
+
+    fs.writeFile('./src/api/test-data.json', JSON.stringify(data, null, 2), 'utf8', (err) => {
+        if (err) {
+            console.log("Error writing to file");
+            return res.status(500).send("Error writing to file");
+        }
+        console.log("Chat added successfully");
+        res.status(200).send("Chat added successfully");
+    });
+});
+
 app.listen(3001, () => {
     console.log('Server running on port 3001');
 });
