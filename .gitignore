@@ -1,3 +1,6 @@
+# CUSTOM
+src/api/test-data.json
+
 # Logs
 logs
 *.log

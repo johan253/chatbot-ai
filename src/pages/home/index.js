@@ -38,12 +38,12 @@ const HomePage = () => {
       <Navbar />
       <Box sx={{ p: 2 }}>
         <Typography variant="h6">Active Chats</Typography>
-        <Box sx={{ mt: 2, display: 'flex', justifyContent: 'center' }}>
+        <Box sx={{ mt: 2, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
           {chats
             .filter(chat => chat.active)
             .map(chat => (
               <Paper key={chat.id} elevation={6}
-                sx={{ display: 'flex', alignItems: 'center', my: 2, p: 3, maxWidth: 'sm', flexGrow: 1 }}
+                sx={{ display: 'flex', alignItems: 'center', my: 2, p: 3, maxWidth: 'sm', width: '100%'}}
               >
                 <Avatar src={Rex}/>
                 <Link className={"ml-5 hover:text-pink-600"} to={`chat/${chat.id}`}>
@@ -55,12 +55,12 @@ const HomePage = () => {
         <Divider />
         <Box sx={{ mt: 2 }}>
           <Typography variant="h6">Ended Chats</Typography>
-          <Box sx={{ mt: 2, display: 'flex', justifyContent: 'center' }}>
+          <Box sx={{ mt: 2, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             {chats
               .filter(chat => !chat.active)
               .map(chat => (
                 <Paper key={chat.id} elevation={6}
-                  sx={{ display: 'flex', alignItems: 'center', my: 2, p: 3, maxWidth: 'sm', flexGrow: 1 }}
+                  sx={{ display: 'flex', alignItems: 'center', my: 2, p: 3, maxWidth: 'sm', width: '100%'}}
                 >
                   <Avatar src={Rex} />
                   <Link className={"ml-5 hover:text-pink-600"} to={`chat/${chat.id}`}>

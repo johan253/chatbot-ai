@@ -25,29 +25,6 @@
           "role": "assistant"
         }
       ]
-    },
-    {
-      "id": "3",
-      "name": "Chat 3",
-      "active": true,
-      "date": "6/21/2024",
-      "messages": [
-        {
-          "id": "1",
-          "text": "Hello! I am ReX, your personal assistant. How can I help you today?",
-          "role": "assistant"
-        },
-        {
-          "id": "2",
-          "text": "hi",
-          "role": "user"
-        },
-        {
-          "id": "3",
-          "text": "Hello! How can I assist you today?",
-          "role": "assistant"
-        }
-      ]
     }
   ]
 }
